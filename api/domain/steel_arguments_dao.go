@@ -1,8 +1,10 @@
 package domain
 
 import (
+	"db/api/domain/amir_calc"
 	"db/api/utils"
 	"github.com/jmoiron/sqlx"
+	"strconv"
 )
 
 type steelArgumentsDaoInterface interface {
@@ -14,11 +16,27 @@ type steelArgumentsDao struct {
 	client *sqlx.DB
 }
 
+type BeamAnalysisResults struct {
+	Pt       float64
+	Pc       float64
+	Mcx      float64
+	Mcy      float64
+	Vcx      float64
+	Vcy      float64
+	Pratio   float64
+	MxRatio  float64
+	MyRatio  float64
+	VxRatio  float64
+	VyRatio  float64
+	Combined float64
+	KLr      float64
+}
+
 var (
 	SteelArgumentsDao steelArgumentsDaoInterface
 )
 
-func init()  {
+func init() {
 	SteelArgumentsDao = &steelArgumentsDao{}
 	SteelArgumentsDao.SetClient()
 }
@@ -118,11 +136,123 @@ func (s *steelArgumentsDao) Get(ID int) (*CreateSteelArguments, error) {
 				idsteel_sections = ?
 			`
 	err := s.client.Get(&steelArgumentsData, sql, ID)
+
+	SteelSections_w, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_w, 64)
+	SteelSections_a, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_a, 64)
+	SteelSections_d, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_d, 64)
+	SteelSections_ddet, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_ddet, 64)
+	SteelSections_ht, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_ht, 64)
+	SteelSections_h, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_h, 64)
+	SteelSections_od, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_od, 64)
+	SteelSections_bf, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_bf, 64)
+	SteelSections_bfdet, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_bfdet, 64)
+	SteelSections_bhss, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_bhss, 64)
+	SteelSections_b, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_b, 64)
+	SteelSections_id, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_id, 64)
+	SteelSections_tw, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_tw, 64)
+	SteelSections_twdet, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_twdet, 64)
+	SteelSections_twdet_2, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_twdet_2, 64)
+	SteelSections_tf, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_tf, 64)
+	SteelSections_tfdet, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_tfdet, 64)
+	SteelSections_th, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_th, 64)
+	SteelSections_tnom, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_tnom, 64)
+	SteelSections_tdes, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_tdes, 64)
+	SteelSections_kdes, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_kdes, 64)
+	SteelSections_kdet, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_kdet, 64)
+	SteelSections_k1, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_k1, 64)
+	SteelSections_x, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_x, 64)
+	SteelSections_y, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_y, 64)
+	SteelSections_eo, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_eo, 64)
+	SteelSections_xp, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_xp, 64)
+	SteelSections_yp, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_yp, 64)
+	SteelSections_bf_2tf, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_bf_2tf, 64)
+	SteelSections_b_t, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_b_t, 64)
+	SteelSections_b_tdes, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_b_tdes, 64)
+	SteelSections_h_tw, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_h_tw, 64)
+	SteelSections_h_tdes, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_h_tdes, 64)
+	SteelSections_d_t, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_d_t, 64)
+	SteelSections_ix, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_ix, 64)
+	SteelSections_zx, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_zx, 64)
+	SteelSections_sx, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_sx, 64)
+	SteelSections_rx, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_rx, 64)
+	SteelSections_iy, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_iy, 64)
+	SteelSections_zy, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_zy, 64)
+	SteelSections_sy, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_sy, 64)
+	SteelSections_ry, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_ry, 64)
+	SteelSections_iz, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_iz, 64)
+	SteelSections_rz, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_rz, 64)
+	SteelSections_sz, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_sz, 64)
+	SteelSections_j, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_j, 64)
+	SteelSections_cw, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_cw, 64)
+	SteelSections_c, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_c, 64)
+	SteelSections_wno, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_wno, 64)
+	SteelSections_sw1, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_sw1, 64)
+	SteelSections_sw2, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_sw2, 64)
+	SteelSections_sw3, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_sw3, 64)
+	SteelSections_qf, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_qf, 64)
+	SteelSections_qw, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_qw, 64)
+	SteelSections_ro, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_ro, 64)
+	SteelSections_hfc, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_hfc, 64)
+	SteelSections_tan_a, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_tan_a, 64)
+	SteelSections_iw, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_iw, 64)
+	SteelSections_za, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_za, 64)
+	SteelSections_zb, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_zb, 64)
+	SteelSections_zc, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_zc, 64)
+	SteelSections_wa, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_wa, 64)
+	SteelSections_wb, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_wb, 64)
+	SteelSections_wc, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_wc, 64)
+	SteelSections_swa, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_swa, 64)
+	SteelSections_swb, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_swb, 64)
+	SteelSections_swc, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_swc, 64)
+	SteelSections_sza, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_sza, 64)
+	SteelSections_szb, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_szb, 64)
+	SteelSections_szc, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_szc, 64)
+	SteelSections_rts, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_rts, 64)
+	SteelSections_ho, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_ho, 64)
+	SteelSections_pa, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_pa, 64)
+	SteelSections_pa2, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_pa2, 64)
+	SteelSections_pb, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_pb, 64)
+	SteelSections_pc, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_pc, 64)
+	SteelSections_pd, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_pd, 64)
+	SteelSections_t, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_t, 64)
+	SteelSections_wgi, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_wgi, 64)
+	SteelSections_wgo, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_wgo, 64)
+
+	Pt, Pc, Mcx, Mcy, Vcx, Vcy, Pratio, MxRatio, MyRatio, VxRatio, VyRatio, Combined, KLr := amir_calc.BeamColumnAnalysis(steelArgumentsData.Analysis, steelArgumentsData.Method, steelArgumentsData.Units, steelArgumentsData.TensileFactor, steelArgumentsData.CompressFactor, steelArgumentsData.BendingFactor, steelArgumentsData.ShearFactor, steelArgumentsData.Vx, steelArgumentsData.Vy, steelArgumentsData.Mx, steelArgumentsData.My, steelArgumentsData.P, steelArgumentsData.Lb, steelArgumentsData.Lx, steelArgumentsData.Kx, steelArgumentsData.Ly, steelArgumentsData.Ky, steelArgumentsData.LLT, steelArgumentsData.Cbx, steelArgumentsData.Cby, steelArgumentsData.SRc, steelArgumentsData.SRt, steelArgumentsData.ModE, steelArgumentsData.YieldStr, steelArgumentsData.UltStr, steelArgumentsData.Shape, steelArgumentsData.SteelSections_t_f, SteelSections_w, SteelSections_a, SteelSections_d, SteelSections_ddet, SteelSections_ht, SteelSections_h, SteelSections_od, SteelSections_bf, SteelSections_bfdet, SteelSections_bhss, SteelSections_b, SteelSections_id, SteelSections_tw, SteelSections_twdet, SteelSections_twdet_2, SteelSections_tf, SteelSections_tfdet, SteelSections_th, SteelSections_tnom, SteelSections_tdes, SteelSections_kdes, SteelSections_kdet, SteelSections_k1, SteelSections_x, SteelSections_y, SteelSections_eo, SteelSections_xp, SteelSections_yp, SteelSections_bf_2tf, SteelSections_b_t, SteelSections_b_tdes, SteelSections_h_tw, SteelSections_h_tdes, SteelSections_d_t, SteelSections_ix, SteelSections_zx, SteelSections_sx, SteelSections_rx, SteelSections_iy, SteelSections_zy, SteelSections_sy, SteelSections_ry, SteelSections_iz, SteelSections_rz, SteelSections_sz, SteelSections_j, SteelSections_cw, SteelSections_c, SteelSections_wno, SteelSections_sw1, SteelSections_sw2, SteelSections_sw3, SteelSections_qf, SteelSections_qw, SteelSections_ro, SteelSections_hfc, SteelSections_tan_a, SteelSections_iw, SteelSections_za, SteelSections_zb, SteelSections_zc, SteelSections_wa, SteelSections_wb, SteelSections_wc, SteelSections_swa, SteelSections_swb, SteelSections_swc, SteelSections_sza, SteelSections_szb, SteelSections_szc, SteelSections_rts, SteelSections_ho, SteelSections_pa, SteelSections_pa2, SteelSections_pb, SteelSections_pc, SteelSections_pd, SteelSections_t, SteelSections_wgi, SteelSections_wgo)
+
+	results := BeamAnalysisResults{
+		Pt:       Pt,
+		Pc:       Pc,
+		Mcx:      Mcx,
+		Mcy:      Mcy,
+		Vcx:      Vcx,
+		Vcy:      Vcy,
+		Pratio:   Pratio,
+		MxRatio:  MxRatio,
+		MyRatio:  MyRatio,
+		VxRatio:  VxRatio,
+		VyRatio:  VyRatio,
+		Combined: Combined,
+		KLr:      KLr,
+	}
+
 	return &steelArgumentsData, err
 }
 
-func (s *steelArgumentsDao) Create(steelTypeEnglishName string, steelTypeEnglishE string, steelTypeEnglishFy string, steelTypeEnglishFu string) error {
-	sql := `INSERT INTO steel_types_english (steel_types_english_name, steel_types_english_E, steel_types_english_Fy, steel_types_english_Fu) VALUES(?,?,?,?)`
-	_, err := s.client.Exec(sql, steelTypeEnglishName, steelTypeEnglishE, steelTypeEnglishFy, steelTypeEnglishFu)
-	return err
+func ReturnResultValues (...float64) {
+	results := BeamAnalysisResults{
+		Pt:       Pt,
+		Pc:       Pc,
+		Mcx:      Mcx,
+		Mcy:      Mcy,
+		Vcx:      Vcx,
+		Vcy:      Vcy,
+		Pratio:   Pratio,
+		MxRatio:  MxRatio,
+		MyRatio:  MyRatio,
+		VxRatio:  VxRatio,
+		VyRatio:  VyRatio,
+		Combined: Combined,
+		KLr:      KLr,
+	}
 }

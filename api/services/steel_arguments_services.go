@@ -16,8 +16,8 @@ func init()  {
 	SteelArgumentService = &steelArgumentService{}
 }
 
-func(s *steelArgumentService) Get(ID int) (*domain.CreateSteelArguments, error) {
-	return domain.SteelArgumentsDao.Get(ID)
+func(s *steelArgumentService) Get(c *domain.CreateSteelArguments) (*domain.CreateSteelArguments, *domain.BeamAnalysisResults, error) {
+	return domain.SteelArgumentsDao.Get(c)
 }
 
 //func (s *steelArgumentService) Get() (*[]domain.CreateSteelArguments, error) {

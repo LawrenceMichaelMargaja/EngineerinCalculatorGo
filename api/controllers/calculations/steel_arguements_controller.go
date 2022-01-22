@@ -21,7 +21,8 @@ func init() {
 
 func (controller *steelArgumentsController) GetSteelArguments(c *gin.Context) {
 
-	var body domain.CreateSteelArguments
+	var body []domain.CreateSteelArguments
+	var results []domain.BeamAnalysisResults
 
 	if err := c.ShouldBindJSON(&body); err != nil {
 		apiErr := &utils.ApplicationError{
@@ -32,19 +33,21 @@ func (controller *steelArgumentsController) GetSteelArguments(c *gin.Context) {
 		utils.RespondError(c, apiErr)
 		return
 	}
+	for _, v := range body {
+		_, result, err := services.SteelArgumentService.Get(&v)
 
-	data, err := services.SteelArgumentService.Get(body.ID)
-
-	if err != nil {
-		apiErr := &utils.ApplicationError{
-			Message:    "Calculation Error when trying to insert UI data : " + err.Error(),
-			StatusCode: http.StatusInternalServerError,
-			Code:       "bad_request",
+		if err != nil {
+			apiErr := &utils.ApplicationError{
+				Message:    "Calculation Error when trying to insert UI data : " + err.Error(),
+				StatusCode: http.StatusInternalServerError,
+				Code:       "bad_request",
+			}
+			utils.RespondError(c, apiErr)
+			return
 		}
-		utils.RespondError(c, apiErr)
-		return
+		results = append(results, *result)
 	}
-	utils.Respond(c, http.StatusOK, data)
+	utils.Respond(c, http.StatusOK, results)
 }
 
 func (controller *steelArgumentsController) GetBeamAnalysisResult(c *gin.Context) {

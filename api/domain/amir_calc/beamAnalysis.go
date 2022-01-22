@@ -115,7 +115,7 @@ func BeamColumnAnalysis(Analysis string, Method string, Units string,
 	float64,
 	float64, float64, float64, float64, float64, float64, float64, float64, float64, float64, float64) {
 
-	fmt.Println("hello friends")
+	//fmt.Println("hello friends")
 	//user input for if axial FORCES(tab) is in Tension bolted
 	var boltsAlongTension float64 = 0
 	var boltsOnWeb bool = false

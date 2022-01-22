@@ -3,12 +3,14 @@ package domain
 import (
 	"db/api/domain/amir_calc"
 	"db/api/utils"
+	"fmt"
 	"github.com/jmoiron/sqlx"
+	"reflect"
 	"strconv"
 )
 
 type steelArgumentsDaoInterface interface {
-	Get(ID int) (*CreateSteelArguments, error)
+	Get(c *CreateSteelArguments) (*CreateSteelArguments, *BeamAnalysisResults, error)
 	SetClient()
 }
 
@@ -17,19 +19,35 @@ type steelArgumentsDao struct {
 }
 
 type BeamAnalysisResults struct {
-	Pt       float64
-	Pc       float64
-	Mcx      float64
-	Mcy      float64
-	Vcx      float64
-	Vcy      float64
-	Pratio   float64
-	MxRatio  float64
-	MyRatio  float64
-	VxRatio  float64
-	VyRatio  float64
-	Combined float64
-	KLr      float64
+	Pt       float64 `json:"pt"`
+	Pc       float64 `json:"pc"`
+	Mcx      float64 `json:"mcx"`
+	Mcy      float64 `json:"mcy"`
+	Vcx      float64 `json:"vcx"`
+	Vcy      float64 `json:"vcy"`
+	Pratio   float64 `json:"pratio"`
+	MxRatio  float64 `json:"mx_ratio"`
+	MyRatio  float64 `json:"my_ratio"`
+	VxRatio  float64 `json:"vx_ratio"`
+	VyRatio  float64 `json:"vy_ratio"`
+	Combined float64 `json:"combined"`
+	KLr      float64 `json:"k_lr"`
+}
+
+func (c *BeamAnalysisResults) DisplayData() {
+	fmt.Println("c.Pt", c.Pt)
+	fmt.Println("c.Pc", c.Pc)
+	fmt.Println("c.Mcx", c.Mcx)
+	fmt.Println("c.Mcy", c.Mcy)
+	fmt.Println("c.Vcx", c.Vcx)
+	fmt.Println("c.Vcy", c.Vcy)
+	fmt.Println("c.Pratio", c.Pratio)
+	fmt.Println("c.MxRatio", c.MxRatio)
+	fmt.Println("c.MyRatio", c.MyRatio)
+	fmt.Println("c.VxRatio", c.VxRatio)
+	fmt.Println("c.VyRatio", c.VyRatio)
+	fmt.Println("c.Combined", c.Combined)
+	fmt.Println("c.KLr", c.KLr)
 }
 
 var (
@@ -45,7 +63,7 @@ func (s *steelArgumentsDao) SetClient() {
 	s.client = utils.GetMYSQLConnection()
 }
 
-func (s *steelArgumentsDao) Get(ID int) (*CreateSteelArguments, error) {
+func (s *steelArgumentsDao) Get(c *CreateSteelArguments) (*CreateSteelArguments, *BeamAnalysisResults, error) {
 	var steelArgumentsData CreateSteelArguments
 	sql := `
 			SELECT
@@ -135,7 +153,7 @@ func (s *steelArgumentsDao) Get(ID int) (*CreateSteelArguments, error) {
 			WHERE 
 				idsteel_sections = ?
 			`
-	err := s.client.Get(&steelArgumentsData, sql, ID)
+	err := s.client.Get(&steelArgumentsData, sql, c.ID)
 
 	SteelSections_w, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_w, 64)
 	SteelSections_a, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_a, 64)
@@ -218,9 +236,135 @@ func (s *steelArgumentsDao) Get(ID int) (*CreateSteelArguments, error) {
 	SteelSections_wgi, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_wgi, 64)
 	SteelSections_wgo, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_wgo, 64)
 
-	Pt, Pc, Mcx, Mcy, Vcx, Vcy, Pratio, MxRatio, MyRatio, VxRatio, VyRatio, Combined, KLr := amir_calc.BeamColumnAnalysis(steelArgumentsData.Analysis, steelArgumentsData.Method, steelArgumentsData.Units, steelArgumentsData.TensileFactor, steelArgumentsData.CompressFactor, steelArgumentsData.BendingFactor, steelArgumentsData.ShearFactor, steelArgumentsData.Vx, steelArgumentsData.Vy, steelArgumentsData.Mx, steelArgumentsData.My, steelArgumentsData.P, steelArgumentsData.Lb, steelArgumentsData.Lx, steelArgumentsData.Kx, steelArgumentsData.Ly, steelArgumentsData.Ky, steelArgumentsData.LLT, steelArgumentsData.Cbx, steelArgumentsData.Cby, steelArgumentsData.SRc, steelArgumentsData.SRt, steelArgumentsData.ModE, steelArgumentsData.YieldStr, steelArgumentsData.UltStr, steelArgumentsData.Shape, steelArgumentsData.SteelSections_t_f, SteelSections_w, SteelSections_a, SteelSections_d, SteelSections_ddet, SteelSections_ht, SteelSections_h, SteelSections_od, SteelSections_bf, SteelSections_bfdet, SteelSections_bhss, SteelSections_b, SteelSections_id, SteelSections_tw, SteelSections_twdet, SteelSections_twdet_2, SteelSections_tf, SteelSections_tfdet, SteelSections_th, SteelSections_tnom, SteelSections_tdes, SteelSections_kdes, SteelSections_kdet, SteelSections_k1, SteelSections_x, SteelSections_y, SteelSections_eo, SteelSections_xp, SteelSections_yp, SteelSections_bf_2tf, SteelSections_b_t, SteelSections_b_tdes, SteelSections_h_tw, SteelSections_h_tdes, SteelSections_d_t, SteelSections_ix, SteelSections_zx, SteelSections_sx, SteelSections_rx, SteelSections_iy, SteelSections_zy, SteelSections_sy, SteelSections_ry, SteelSections_iz, SteelSections_rz, SteelSections_sz, SteelSections_j, SteelSections_cw, SteelSections_c, SteelSections_wno, SteelSections_sw1, SteelSections_sw2, SteelSections_sw3, SteelSections_qf, SteelSections_qw, SteelSections_ro, SteelSections_hfc, SteelSections_tan_a, SteelSections_iw, SteelSections_za, SteelSections_zb, SteelSections_zc, SteelSections_wa, SteelSections_wb, SteelSections_wc, SteelSections_swa, SteelSections_swb, SteelSections_swc, SteelSections_sza, SteelSections_szb, SteelSections_szc, SteelSections_rts, SteelSections_ho, SteelSections_pa, SteelSections_pa2, SteelSections_pb, SteelSections_pc, SteelSections_pd, SteelSections_t, SteelSections_wgi, SteelSections_wgo)
+	fmt.Println("steelArgumentsData.Analysis", c.Analysis, reflect.ValueOf(c.Analysis).Kind())
+	fmt.Println("steelArgumentsData.Method", c.Method, reflect.ValueOf(c.Method).Kind())
+	fmt.Println("steelArgumentsData", utils.ToJSON(steelArgumentsData))
+	Pt, Pc, Mcx, Mcy, Vcx, Vcy, Pratio, MxRatio, MyRatio, VxRatio, VyRatio, Combined, KLr := amir_calc.BeamColumnAnalysis(
+		c.Analysis,
+		c.Method,
+		c.Units,
+		c.TensileFactor,
+		c.CompressFactor,
+		c.BendingFactor,
+		c.ShearFactor,
+		c.Vx,
+		c.Vy,
+		c.Mx,
+		c.My,
+		c.P,
+		c.Lb,
+		c.Lx,
+		c.Kx,
+		c.Ly,
+		c.Ky,
+		c.LLT,
+		c.Cbx,
+		c.Cby,
+		c.SRc,
+		c.SRt,
+		c.ModE,
+		c.YieldStr,
+		c.UltStr,
+		c.Shape,
+		steelArgumentsData.SteelSections_t_f,
+		SteelSections_w,
+		SteelSections_a,
+		SteelSections_d,
+		SteelSections_ddet,
+		SteelSections_ht,
+		SteelSections_h,
+		SteelSections_od,
+		SteelSections_bf,
+		SteelSections_bfdet,
+		SteelSections_bhss,
+		SteelSections_b,
+		SteelSections_id,
+		SteelSections_tw,
+		SteelSections_twdet,
+		SteelSections_twdet_2,
+		SteelSections_tf,
+		SteelSections_tfdet,
+		SteelSections_th,
+		SteelSections_tnom,
+		SteelSections_tdes,
+		SteelSections_kdes,
+		SteelSections_kdet,
+		SteelSections_k1,
+		SteelSections_x,
+		SteelSections_y,
+		SteelSections_eo,
+		SteelSections_xp,
+		SteelSections_yp,
+		SteelSections_bf_2tf,
+		SteelSections_b_t,
+		SteelSections_b_tdes,
+		SteelSections_h_tw,
+		SteelSections_h_tdes,
+		SteelSections_d_t,
+		SteelSections_ix,
+		SteelSections_zx,
+		SteelSections_sx,
+		SteelSections_rx,
+		SteelSections_iy,
+		SteelSections_zy,
+		SteelSections_sy,
+		SteelSections_ry,
+		SteelSections_iz,
+		SteelSections_rz,
+		SteelSections_sz,
+		SteelSections_j,
+		SteelSections_cw,
+		SteelSections_c,
+		SteelSections_wno,
+		SteelSections_sw1,
+		SteelSections_sw2,
+		SteelSections_sw3,
+		SteelSections_qf,
+		SteelSections_qw,
+		SteelSections_ro,
+		SteelSections_hfc,
+		SteelSections_tan_a,
+		SteelSections_iw,
+		SteelSections_za,
+		SteelSections_zb,
+		SteelSections_zc,
+		SteelSections_wa,
+		SteelSections_wb,
+		SteelSections_wc,
+		SteelSections_swa,
+		SteelSections_swb,
+		SteelSections_swc,
+		SteelSections_sza,
+		SteelSections_szb,
+		SteelSections_szc,
+		SteelSections_rts,
+		SteelSections_ho,
+		SteelSections_pa,
+		SteelSections_pa2,
+		SteelSections_pb,
+		SteelSections_pc,
+		SteelSections_pd,
+		SteelSections_t,
+		SteelSections_wgi,
+		SteelSections_wgo)
 
-	results := BeamAnalysisResults{
+
+
+	//if math.IsNaN(Pratio) {
+	//	Pratio = 0
+	//}
+	//
+	//if math.IsNaN(KLr) {
+	//	KLr = 0
+	//}
+	//
+	//if math.IsNaN(Pt) {
+	//
+	//}
+
+	fmt.Println("Pratio = ", Pratio)
+
+	calculationResult := &BeamAnalysisResults{
 		Pt:       Pt,
 		Pc:       Pc,
 		Mcx:      Mcx,
@@ -235,24 +379,6 @@ func (s *steelArgumentsDao) Get(ID int) (*CreateSteelArguments, error) {
 		Combined: Combined,
 		KLr:      KLr,
 	}
-
-	return &steelArgumentsData, err
-}
-
-func ReturnResultValues (...float64) {
-	results := BeamAnalysisResults{
-		Pt:       Pt,
-		Pc:       Pc,
-		Mcx:      Mcx,
-		Mcy:      Mcy,
-		Vcx:      Vcx,
-		Vcy:      Vcy,
-		Pratio:   Pratio,
-		MxRatio:  MxRatio,
-		MyRatio:  MyRatio,
-		VxRatio:  VxRatio,
-		VyRatio:  VyRatio,
-		Combined: Combined,
-		KLr:      KLr,
-	}
+	//fmt.Println(calculationResult)
+	return &steelArgumentsData, calculationResult, err
 }

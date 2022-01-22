@@ -9,6 +9,9 @@ func mapUrls()  {
 	//CALCULATE POST REQUEST
 	router.POST("/steelArguments", calculations.SteelArgumentsController.GetSteelArguments)
 
+	//CALCULATE GET REQUEST
+	router.GET("/steelArguments", calculations.SteelArgumentsController.GetSteelArguments)
+
 	//POST REQUESTS
 	router.POST("/shape", controllers.ShapeController.AddShape)
 	router.POST("/tshapemetric", controllers.TShapeMetricController.AddTShapeMetric)

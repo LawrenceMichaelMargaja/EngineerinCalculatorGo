@@ -1,22 +1,29 @@
 package domain
 
-type SteelArgumentsResults struct {
-	Pt       float64 `json:"pt" db:"pt"`
-	Pc       float64 `json:"pc" db:"pc"`
-	Mcx      float64 `json:"mcx" db:"mcx"`
-	Mcy      float64 `json:"mcy" db:"mcy"`
-	Vcx      float64 `json:"vcx" db:"vcx"`
-	Vcy      float64 `json:"vcy" db:"vcy"`
-	Pratio   float64 `json:"pratio" db:"pratio"`
-	MxRatio  float64 `json:"mx_ratio" db:"mx_ratio"`
-	MyRatio  float64 `json:"my_ratio" db:"my_ratio"`
-	VxRatio  float64 `json:"vx_ratio" db:"vx_ratio"`
-	VyRatio  float64 `json:"vy_ratio" db:"vy_ratio"`
-	Combined float64 `json:"combined" db:"combined"`
-	KLr      float64 `json:"k_lr" db:"k_lr"`
+type OverallResults struct {
+	Id                  int     `json:"id" db:"id"`
+	Name                string  `json:"name" db:"name"`
+	OverallDepth        float64 `json:"overall_depth" db:"overall_depth"`
+	Weight              float64 `json:"weight" db:"weight"`
 }
 
-type CreateSteelArguments struct {
+type SteelArgumentsDesignResults struct {
+	Pt                  float64 `json:"pt" db:"pt"`
+	Pc                  float64 `json:"pc" db:"pc"`
+	Mcx                 float64 `json:"mcx" db:"mcx"`
+	Mcy                 float64 `json:"mcy" db:"mcy"`
+	Vcx                 float64 `json:"vcx" db:"vcx"`
+	Vcy                 float64 `json:"vcy" db:"vcy"`
+	Pratio              float64 `json:"pratio" db:"pratio"`
+	MxRatio             float64 `json:"mx_ratio" db:"mx_ratio"`
+	MyRatio             float64 `json:"my_ratio" db:"my_ratio"`
+	VxRatio             float64 `json:"vx_ratio" db:"vx_ratio"`
+	VyRatio             float64 `json:"vy_ratio" db:"vy_ratio"`
+	Combined            float64 `json:"combined" db:"combined"`
+	KLr                 float64 `json:"k_lr" db:"k_lr"`
+}
+
+type CreateSteelDesignArguments struct {
 	ID                    int     `json:"id" db:"id"`
 	Name                  string  `json:"name" db:"name"`
 	Analysis              string  `json:"analysis" db:"analysis"`

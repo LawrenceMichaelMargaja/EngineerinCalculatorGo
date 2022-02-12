@@ -2,69 +2,99 @@ package domain
 
 import (
 	"db/api/domain/amir_calc"
+	//"db/api/domain/amir_calc/calculation_domains"
 	"db/api/utils"
 	"fmt"
 	"github.com/jmoiron/sqlx"
-	"reflect"
 	"strconv"
 )
 
-type steelArgumentsDaoInterface interface {
-	Get(c *CreateSteelArguments) (*CreateSteelArguments, *BeamAnalysisResults, error)
+type steelArgumentsDesignDaoInterface interface {
+	//GetAdditionalDatabaseValues(c *SteelArgumentsDesignResults) (*SteelArgumentsDesignResults, error)
+	Get(c *CreateSteelDesignArguments) (*CreateSteelDesignArguments, *AdditionalResults, *BeamAnalysisDesignResults, error)
 	SetClient()
 }
 
-type steelArgumentsDao struct {
+type steelArgumentsDesignDao struct {
 	client *sqlx.DB
 }
 
-type BeamAnalysisResults struct {
-	Pt       float64 `json:"pt"`
-	Pc       float64 `json:"pc"`
-	Mcx      float64 `json:"mcx"`
-	Mcy      float64 `json:"mcy"`
-	Vcx      float64 `json:"vcx"`
-	Vcy      float64 `json:"vcy"`
-	Pratio   float64 `json:"pratio"`
-	MxRatio  float64 `json:"mx_ratio"`
-	MyRatio  float64 `json:"my_ratio"`
-	VxRatio  float64 `json:"vx_ratio"`
-	VyRatio  float64 `json:"vy_ratio"`
-	Combined float64 `json:"combined"`
-	KLr      float64 `json:"k_lr"`
+type BeamAnalysisDesignResults struct {
+	Id                  int     `json:"id"`
+	Name                string  `json:"name"`
+	OverallDepth        float64 `json:"overall_depth"`
+	Weight              float64 `json:"weight"`
+	CriticalDesignRatio float64 `json:"critical_design_ratio"`
+	KlrValue            float64 `json:"klr_value"`
+	Pt                  float64 `json:"pt"`
+	Pc                  float64 `json:"pc"`
+	Mcx                 float64 `json:"mcx"`
+	Mcy                 float64 `json:"mcy"`
+	Vcx                 float64 `json:"vcx"`
+	Vcy                 float64 `json:"vcy"`
+	Pratio              float64 `json:"pratio"`
+	MxRatio             float64 `json:"mx_ratio"`
+	MyRatio             float64 `json:"my_ratio"`
+	VxRatio             float64 `json:"vx_ratio"`
+	VyRatio             float64 `json:"vy_ratio"`
+	Combined            float64 `json:"combined"`
+	KLr                 float64 `json:"k_lr"`
 }
 
-func (c *BeamAnalysisResults) DisplayData() {
-	fmt.Println("c.Pt", c.Pt)
-	fmt.Println("c.Pc", c.Pc)
-	fmt.Println("c.Mcx", c.Mcx)
-	fmt.Println("c.Mcy", c.Mcy)
-	fmt.Println("c.Vcx", c.Vcx)
-	fmt.Println("c.Vcy", c.Vcy)
-	fmt.Println("c.Pratio", c.Pratio)
-	fmt.Println("c.MxRatio", c.MxRatio)
-	fmt.Println("c.MyRatio", c.MyRatio)
-	fmt.Println("c.VxRatio", c.VxRatio)
-	fmt.Println("c.VyRatio", c.VyRatio)
-	fmt.Println("c.Combined", c.Combined)
-	fmt.Println("c.KLr", c.KLr)
+type AdditionalResults struct {
+	Id                  int     `json:"id" db:"id"`
+	Name                string  `json:"name" db:"name"`
+	OverallDepth        float64 `json:"overall_depth" db:"overall_depth"`
+	Weight              float64 `json:"weight" db:"weight"`
+	CriticalDesignRatio float64 `json:"critical_design_ratio" db:"critical_design_ratio"`
+	KlrValue            float64 `json:"klr_value" db:"klr_value"`
+	Pt                  float64 `json:"pt"`
+	Pc                  float64 `json:"pc"`
+	Mcx                 float64 `json:"mcx"`
+	Mcy                 float64 `json:"mcy"`
+	Vcx                 float64 `json:"vcx"`
+	Vcy                 float64 `json:"vcy"`
+	Pratio              float64 `json:"pratio"`
+	MxRatio             float64 `json:"mx_ratio"`
+	MyRatio             float64 `json:"my_ratio"`
+	VxRatio             float64 `json:"vx_ratio"`
+	VyRatio             float64 `json:"vy_ratio"`
+	Combined            float64 `json:"combined"`
+	KLr                 float64 `json:"k_lr"`
 }
+
+//func (c *BeamAnalysisDesignResults) DisplayDesignData() {
+//	fmt.Println("c.Pt", c.Pt)
+//	fmt.Println("c.Pc", c.Pc)
+//	fmt.Println("c.Mcx", c.Mcx)
+//	fmt.Println("c.Mcy", c.Mcy)
+//	fmt.Println("c.Vcx", c.Vcx)
+//	fmt.Println("c.Vcy", c.Vcy)
+//	fmt.Println("c.Pratio", c.Pratio)
+//	fmt.Println("c.MxRatio", c.MxRatio)
+//	fmt.Println("c.MyRatio", c.MyRatio)
+//	fmt.Println("c.VxRatio", c.VxRatio)
+//	fmt.Println("c.VyRatio", c.VyRatio)
+//	fmt.Println("c.Combined", c.Combined)
+//	fmt.Println("c.KLr", c.KLr)
+//}
 
 var (
-	SteelArgumentsDao steelArgumentsDaoInterface
+	SteelArgumentsDesignDao steelArgumentsDesignDaoInterface
 )
 
 func init() {
-	SteelArgumentsDao = &steelArgumentsDao{}
-	SteelArgumentsDao.SetClient()
+	SteelArgumentsDesignDao = &steelArgumentsDesignDao{}
+	SteelArgumentsDesignDao.SetClient()
 }
 
-func (s *steelArgumentsDao) SetClient() {
+func (s *steelArgumentsDesignDao) SetClient() {
 	s.client = utils.GetMYSQLConnection()
 }
 
-func (s *steelArgumentsDao) Get(c *CreateSteelArguments) (*CreateSteelArguments, *BeamAnalysisResults, error) {
-	var steelArgumentsData CreateSteelArguments
+func (s *steelArgumentsDesignDao) Get(c *CreateSteelDesignArguments) (*CreateSteelDesignArguments, *AdditionalResults, *BeamAnalysisDesignResults, error) {
+	var steelArgumentsData CreateSteelDesignArguments
+	//var theAdditionalResults SteelArgumentsDesignResults
 	sql := `
 			SELECT
 				steel_sections_t_f AS steel_sections_t_f,
@@ -236,9 +266,9 @@ func (s *steelArgumentsDao) Get(c *CreateSteelArguments) (*CreateSteelArguments,
 	SteelSections_wgi, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_wgi, 64)
 	SteelSections_wgo, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_wgo, 64)
 
-	fmt.Println("steelArgumentsData.Analysis", c.Analysis, reflect.ValueOf(c.Analysis).Kind())
-	fmt.Println("steelArgumentsData.Method", c.Method, reflect.ValueOf(c.Method).Kind())
-	fmt.Println("steelArgumentsData", utils.ToJSON(steelArgumentsData))
+	//fmt.Println("steelArgumentsData.Analysis", c.Analysis, reflect.ValueOf(c.Analysis).Kind())
+	//fmt.Println("steelArgumentsData.Method", c.Method, reflect.ValueOf(c.Method).Kind())
+	//fmt.Println("steelArgumentsData", utils.ToJSON(steelArgumentsData))
 	Pt, Pc, Mcx, Mcy, Vcx, Vcy, Pratio, MxRatio, MyRatio, VxRatio, VyRatio, Combined, KLr := amir_calc.BeamColumnAnalysis(
 		c.Analysis,
 		c.Analysis,
@@ -348,9 +378,7 @@ func (s *steelArgumentsDao) Get(c *CreateSteelArguments) (*CreateSteelArguments,
 		SteelSections_wgi,
 		SteelSections_wgo)
 
-	fmt.Println("Pratio = ", Pratio)
-
-	calculationResult := &BeamAnalysisResults{
+	calculationResult := &BeamAnalysisDesignResults{
 		Pt:       Pt,
 		Pc:       Pc,
 		Mcx:      Mcx,
@@ -365,5 +393,120 @@ func (s *steelArgumentsDao) Get(c *CreateSteelArguments) (*CreateSteelArguments,
 		Combined: Combined,
 		KLr:      KLr,
 	}
-	return &steelArgumentsData, calculationResult, err
+
+	//Data, err := calculation_domains.GetTest(c.Name)
+	data, testResult, _ := s.GetDesignResultMetric(c, calculationResult)
+
+	//NewResult := &SteelArgumentsDesignResults{
+	//	id:                  id,
+	//	name:                name,
+	//	overallDepth:        overallDepth,
+	//	weight:              weight,
+	//	criticalDesignRatio: criticalDesignRatio,
+	//	klrValue:            klrValue,
+	//	Pt:                  Pt,
+	//	Pc:                  Pc,
+	//	Mcx:                 Mcx,
+	//	Mcy:                 Mcy,
+	//	Vcx:                 Vcx,
+	//	Vcy:                 Vcy,
+	//	Pratio:              Pratio,
+	//	MxRatio:             MxRatio,
+	//	MyRatio:             MyRatio,
+	//	VxRatio:             VxRatio,
+	//	VyRatio:             VyRatio,
+	//	Combined:            Combined,
+	//	KLr:                 KLr,
+	//}
+	//fmt.Println("newErr === ", newErr)
+	//fmt.Println("data === ", data)
+	fmt.Println("the test results === ", testResult)
+	return &steelArgumentsData, data, testResult, err
 }
+
+func (s *steelArgumentsDesignDao) GetDesignResultMetric(c *CreateSteelDesignArguments, calculatedResult *BeamAnalysisDesignResults) (*AdditionalResults, *BeamAnalysisDesignResults, error) {
+	var theAdditionalResults AdditionalResults
+	sqlNew := `SELECT
+					iddesign_member_metric AS id,
+					design_member_metric_name AS name,
+					design_member_metric_total_depth AS overall_depth,
+					design_member_metric_weight AS weight
+				FROM
+					design_member_metric
+				WHERE
+					design_member_metric_name = ?`
+
+	errNew := s.client.Get(&theAdditionalResults, sqlNew, c.Name)
+
+	promisedResult := &BeamAnalysisDesignResults{
+		Id:                  theAdditionalResults.Id,
+		Name:                theAdditionalResults.Name,
+		OverallDepth:        theAdditionalResults.OverallDepth,
+		Weight:              theAdditionalResults.Weight,
+		CriticalDesignRatio: theAdditionalResults.CriticalDesignRatio,
+		KlrValue:            theAdditionalResults.KLr,
+		Pt:                  calculatedResult.Pt,
+		Pc:                  calculatedResult.Pc,
+		Mcx:                 calculatedResult.Mcx,
+		Mcy:                 calculatedResult.Mcy,
+		Vcx:                 calculatedResult.Vcx,
+		Vcy:                 calculatedResult.Vcy,
+		Pratio:              calculatedResult.Pratio,
+		MxRatio:             calculatedResult.MxRatio,
+		MyRatio:             calculatedResult.MyRatio,
+		VxRatio:             calculatedResult.VxRatio,
+		VyRatio:             calculatedResult.VyRatio,
+		Combined:            calculatedResult.Combined,
+		KLr:                 calculatedResult.KLr,
+	}
+	fmt.Println("the new promisedResult", promisedResult)
+	fmt.Println("the new body", theAdditionalResults)
+	return &theAdditionalResults, promisedResult, errNew
+}
+
+func (s *steelArgumentsDesignDao) GetDesignResultEnglish(c *CreateSteelDesignArguments, calculatedResult *BeamAnalysisDesignResults) (*AdditionalResults, *BeamAnalysisDesignResults, error) {
+	var theAdditionalResults AdditionalResults
+	sqlNew := `SELECT
+					iddesign_member_english AS id,
+					design_member_english_name AS name,
+					design_member_english_total_depth AS overall_depth,
+					design_member_english_weight AS weight
+				FROM
+					design_member_english
+				WHERE
+					design_member_metric_name = ?`
+
+	errNew := s.client.Get(&theAdditionalResults, sqlNew, c.Name)
+
+	promisedResult := &BeamAnalysisDesignResults{
+		Id:                  theAdditionalResults.Id,
+		Name:                theAdditionalResults.Name,
+		OverallDepth:        theAdditionalResults.OverallDepth,
+		Weight:              theAdditionalResults.Weight,
+		CriticalDesignRatio: theAdditionalResults.CriticalDesignRatio,
+		KlrValue:            theAdditionalResults.KLr,
+		Pt:                  calculatedResult.Pt,
+		Pc:                  calculatedResult.Pc,
+		Mcx:                 calculatedResult.Mcx,
+		Mcy:                 calculatedResult.Mcy,
+		Vcx:                 calculatedResult.Vcx,
+		Vcy:                 calculatedResult.Vcy,
+		Pratio:              calculatedResult.Pratio,
+		MxRatio:             calculatedResult.MxRatio,
+		MyRatio:             calculatedResult.MyRatio,
+		VxRatio:             calculatedResult.VxRatio,
+		VyRatio:             calculatedResult.VyRatio,
+		Combined:            calculatedResult.Combined,
+		KLr:                 calculatedResult.KLr,
+	}
+	fmt.Println("the new promisedResult", promisedResult)
+	fmt.Println("the new body", theAdditionalResults)
+	return &theAdditionalResults, promisedResult, errNew
+}
+
+//func (s *steelArgumentsDesignDao) GetAdditionalDatabaseValues(c *SteelArgumentsDesignResults) (*SteelArgumentsDesignResults, error) {
+//	var additionalDesignData SteelArgumentsDesignResults
+//	sql := `SELECT idt_shape_metric AS id, i_shape_metric_name AS i_shape_english_name FROM i_shape_english  WHERE steel_sections_aisc_manual_label_metric = ?`
+//	err := s.client.Get(&additionalDesignData, sql, c.name)
+//	return &additionalDesignData, err
+//}

@@ -8,21 +8,24 @@ import (
 	"net/http"
 )
 
-type steelArgumentsController struct {
+type steelArgumentsDesignController struct {
+
 }
 
 var (
-	SteelArgumentsController *steelArgumentsController
+	SteelArgumentsDesignController *steelArgumentsDesignController
 )
 
 func init() {
-	SteelArgumentsController = &steelArgumentsController{}
+	SteelArgumentsDesignController = &steelArgumentsDesignController{}
 }
 
-func (controller *steelArgumentsController) GetSteelArguments(c *gin.Context) {
+func (controller *steelArgumentsDesignController) GetSteelArgumentsDesign(c *gin.Context) {
 
-	var body []domain.CreateSteelArguments
-	var results []domain.BeamAnalysisResults
+	var body []domain.CreateSteelDesignArguments
+	var results []domain.BeamAnalysisDesignResults
+	var dataValues []domain.AdditionalResults
+	//var additionalResults []domain.SteelArgumentsDesignResults
 
 	if err := c.ShouldBindJSON(&body); err != nil {
 		apiErr := &utils.ApplicationError{
@@ -33,8 +36,9 @@ func (controller *steelArgumentsController) GetSteelArguments(c *gin.Context) {
 		utils.RespondError(c, apiErr)
 		return
 	}
+
 	for _, v := range body {
-		_, result, err := services.SteelArgumentService.Get(&v)
+		_, data, result, err := services.SteelArgumentServiceDesign.Get(&v)
 
 		if err != nil {
 			apiErr := &utils.ApplicationError{
@@ -46,11 +50,14 @@ func (controller *steelArgumentsController) GetSteelArguments(c *gin.Context) {
 			return
 		}
 		results = append(results, *result)
+		dataValues = append(dataValues, *data)
+		//fmt.Println("the data values --- ", results)
+		//additionalResults = append(additionalResults, *additionalDataResult)
 	}
 	utils.Respond(c, http.StatusOK, results)
 }
 
-func (controller *steelArgumentsController) GetBeamAnalysisResult(c *gin.Context) {
+func (controller *steelArgumentsDesignController) GetBeamAnalysisResult(c *gin.Context) {
 	cShapeEnglishData, err := services.CShapeEnglishService.Get()
 
 	if err != nil {

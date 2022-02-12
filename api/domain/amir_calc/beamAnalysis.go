@@ -11,8 +11,8 @@ func BeamColumnAnalysis(Analysis string, Method string, Units string,
 	tensileFactor float64, compressFactor float64, bendingFactor float64, shearFactor float64,
 
 	//user input FORCES(tab) loading
-	Vx float64, Vy float64,
 	Mx float64, My float64,
+	Vx float64, Vy float64,
 	P float64,
 	//Tr float64,
 
@@ -341,21 +341,21 @@ func BeamColumnAnalysis(Analysis string, Method string, Units string,
 	Tc = Tc * 12 / 1000000
 
 	//Convert back if necessary
-	if Units == "English" {
-		P = uConverToEN(P, "kN")
-		Vx = uConverToEN(Vx, "kN")
-		Vy = uConverToEN(Vy, "kN")
-		Mx = uConverToEN(Mx, "kN-m")
-		My = uConverToEN(My, "kN-m")
-		Tr = uConverToEN(Tr, "kN-m")
-		Pt = uConverToEN(Pt, "kN")
-		Pc = uConverToEN(Pc, "kN")
-		Vcx = uConverToEN(Vcx, "kN")
-		Vcy = uConverToEN(Vcy, "kN")
-		Mcx = uConverToEN(Mcx, "kN-m")
-		Mcy = uConverToEN(Mcy, "kN-m")
-		Tc = uConverToEN(Tc, "kN-m")
-	}
+	//if Units == "English" {
+	//	P = uConverToEN(P, "kN")
+	//	Vx = uConverToEN(Vx, "kN")
+	//	Vy = uConverToEN(Vy, "kN")
+	//	Mx = uConverToEN(Mx, "kN-m")
+	//	My = uConverToEN(My, "kN-m")
+	//	Tr = uConverToEN(Tr, "kN-m")
+	//	Pt = uConverToEN(Pt, "kN")
+	//	Pc = uConverToEN(Pc, "kN")
+	//	Vcx = uConverToEN(Vcx, "kN")
+	//	Vcy = uConverToEN(Vcy, "kN")
+	//	Mcx = uConverToEN(Mcx, "kN-m")
+	//	Mcy = uConverToEN(Mcy, "kN-m")
+	//	Tc = uConverToEN(Tc, "kN-m")
+	//}
 
 	var PRatio = P / Pc
 	var slenderness = mMax(Lcy/ry, Lcx/rx) / SRc

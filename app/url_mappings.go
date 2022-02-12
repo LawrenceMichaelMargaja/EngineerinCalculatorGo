@@ -7,6 +7,8 @@ import (
 
 func mapUrls()  {
 	//CALCULATE POST REQUEST
+	router.POST("/steelArgumentsDesignEnglish", calculations.SteelArgumentsDesignControllerEnglish.GetSteelArgumentsDesignEnglish)
+	router.POST("/steelArgumentsDesign", calculations.SteelArgumentsDesignController.GetSteelArgumentsDesign)
 	router.POST("/steelArguments", calculations.SteelArgumentsController.GetSteelArguments)
 
 	//CALCULATE GET REQUEST
@@ -39,6 +41,8 @@ func mapUrls()  {
 
 	//GET REQUESTS
 	//router.GET("/steelSections", controllers.SteelSectionsController.GetSteelSections)
+	router.GET("/designMembersEnglish", controllers.DesignMembersEnglishController.GetDesignMemberEnglish)
+	router.GET("/designMembersMetric", controllers.DesignMembersMetricController.GetDesignMemberMetric)
 	router.GET("/shape", controllers.ShapeController.GetShape)
 	router.GET("/tshapemetric", controllers.TShapeMetricController.GetTShapeMetricData)
 	router.GET("/tshapeenglish", controllers.TShapeEnglishController.GetTShapeEngligh)

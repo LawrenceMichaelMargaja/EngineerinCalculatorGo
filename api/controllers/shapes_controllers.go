@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"db/api/domain"
 	"db/api/services"
 	"db/api/utils"
 	"github.com/gin-gonic/gin"
@@ -35,31 +34,31 @@ func (controller *shapeController) GetShape(c *gin.Context) {
 }
 
 
-func (controller *shapeController) AddShape(c *gin.Context) {
-
-	var body domain.CreateShapes
-
-	if err := c.ShouldBindJSON(&body); err != nil {
-		apiErr := &utils.ApplicationError{
-			Message:    "body must conform to format",
-			StatusCode: http.StatusBadRequest,
-			Code:       "bad_request",
-		}
-		utils.RespondError(c, apiErr)
-		return
-	}
-
-	err := services.ShapeService.Create(body.ShapeName, body.DbValue)
-
-	if err != nil {
-		apiErr := &utils.ApplicationError{
-			Message:    "Error wen attempting to insert shape data",
-			StatusCode: http.StatusInternalServerError,
-			Code:       "bad_request",
-		}
-		utils.RespondError(c, apiErr)
-		return
-	}
-	utils.Respond(c, http.StatusOK, "Successfully Added Shape")
-	return
-}
+//func (controller *shapeController) AddShape(c *gin.Context) {
+//
+//	var body domain.CreateShapes
+//
+//	if err := c.ShouldBindJSON(&body); err != nil {
+//		apiErr := &utils.ApplicationError{
+//			Message:    "body must conform to format",
+//			StatusCode: http.StatusBadRequest,
+//			Code:       "bad_request",
+//		}
+//		utils.RespondError(c, apiErr)
+//		return
+//	}
+//
+//	err := services.ShapeService.Create(body.ShapeName)
+//
+//	if err != nil {
+//		apiErr := &utils.ApplicationError{
+//			Message:    "Error wen attempting to insert shape data",
+//			StatusCode: http.StatusInternalServerError,
+//			Code:       "bad_request",
+//		}
+//		utils.RespondError(c, apiErr)
+//		return
+//	}
+//	utils.Respond(c, http.StatusOK, "Successfully Added Shape")
+//	return
+//}

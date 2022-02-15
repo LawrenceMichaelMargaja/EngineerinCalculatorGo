@@ -15,7 +15,7 @@ func mapUrls()  {
 	router.GET("/steelArguments", calculations.SteelArgumentsController.GetSteelArguments)
 
 	//POST REQUESTS
-	router.POST("/shape", controllers.ShapeController.AddShape)
+	//router.POST("/shape", controllers.ShapeController.AddShape)
 	router.POST("/tshapemetric", controllers.TShapeMetricController.AddTShapeMetric)
 	router.POST("/tshapeenglish", controllers.TShapeEnglishController.AddTShapeEnglish)
 	router.POST("/steeltypesmetric", controllers.SteelTypesMetricController.AddSteelTypeMetric)

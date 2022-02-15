@@ -8,7 +8,7 @@ import (
 
 type shapeDaoInterface interface {
 	GetShapes() (*[]Shapes, error)
-	Create(shapeName string, DbValue string) error
+	//Create(shapeName string) error
 	SetClient()
 }
 
@@ -29,19 +29,18 @@ func (s *shapeDao) SetClient() {
 	s.client = utils.GetMYSQLConnection()
 }
 
-func (s *shapeDao) Create(shapeName string, DbValue string) error {
-	sql := `INSERT INTO shapes (shapeName, db_value) VALUES (?, ?)`
-
-	_, err := s.client.Exec(sql, shapeName, DbValue)
-	return err
-}
+//func (s *shapeDao) Create(shapeName string) error {
+//	sql := `INSERT INTO shapes (shape_name, db_value) VALUES (?, ?)`
+//
+//	_, err := s.client.Exec(sql, shapeName)
+//	return err
+//}
 
 func (s *shapeDao) GetShapes() (*[]Shapes, error) {
 	var shapes []Shapes
 	sql := `SELECT 
 				idshapes AS id,
-				shapeName AS shape_name,
-       			db_value AS db_value
+				shapes_name AS shape_name
 			FROM shapes`
 	err := s.client.Select(&shapes, sql)
 	return &shapes, err

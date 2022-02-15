@@ -5,7 +5,6 @@ import (
 	"db/api/utils"
 	"fmt"
 	"github.com/jmoiron/sqlx"
-	"reflect"
 	"strconv"
 )
 
@@ -76,7 +75,7 @@ func (s *steelArgumentsDao) Get(c *CreateSteelArguments) (*CreateSteelArguments,
 				steel_sections_h AS steel_sections_h,
 				steel_sections_od AS steel_sections_od,
 				steel_sections_bf AS steel_sections_bf,
-				steel_sections_w AS steel_sections_w,
+				steel_sections_bfdet AS steel_sections_bfdet,
 				steel_sections_bhss AS steel_sections_bhss,
 				steel_sections_b AS steel_sections_b,
 				steel_sections_id AS steel_sections_id,
@@ -236,21 +235,130 @@ func (s *steelArgumentsDao) Get(c *CreateSteelArguments) (*CreateSteelArguments,
 	SteelSections_wgi, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_wgi, 64)
 	SteelSections_wgo, _ := strconv.ParseFloat(steelArgumentsData.SteelSections_wgo, 64)
 
-	fmt.Println("steelArgumentsData.Analysis", c.Analysis, reflect.ValueOf(c.Analysis).Kind())
-	fmt.Println("steelArgumentsData.Method", c.Method, reflect.ValueOf(c.Method).Kind())
-	fmt.Println("steelArgumentsData", utils.ToJSON(steelArgumentsData))
+	//fmt.Println("steelArgumentsData.Analysis", c.Analysis, reflect.ValueOf(c.Analysis).Kind())
+	//fmt.Println("steelArgumentsData.Method", c.Method, reflect.ValueOf(c.Method).Kind())
+	//fmt.Println("steelArgumentsData", utils.ToJSON(steelArgumentsData))
+
+	fmt.Println("analysis: ", nil)
+	fmt.Println("methodss: ", c.Method)
+	fmt.Println("units: ", c.Units)
+	fmt.Println("tensileFactor: ", c.TensileFactor)
+	fmt.Println("compressFactor: ", c.CompressFactor)
+	fmt.Println("bendingFactor: ", c.BendingFactor)
+	fmt.Println("shearFactor: ", c.ShearFactor)
+	fmt.Println("the mx: ", c.Mx)
+	fmt.Println("the my: ", c.My)
+	fmt.Println("the vx: ", c.Vx)
+	fmt.Println("the vy: ", c.Vy)
+	fmt.Println("the p: ", c.P)
+	fmt.Println("the Lb: ", c.Lb)
+	fmt.Println("the Lx: ", c.Lx)
+	fmt.Println("the Kx: ", c.Kx)
+	fmt.Println("the Ly: ", c.Ly)
+	fmt.Println("the Ky: ", c.Ky)
+	fmt.Println("the LLT: ", c.LLT)
+	fmt.Println("cbx: ", c.Cbx)
+	fmt.Println("cby: ", c.Cby)
+	fmt.Println("src: ", c.SRc)
+	fmt.Println("srt: ", c.SRt)
+	fmt.Println("ModE: ", c.ModE)
+	fmt.Println("YieldStr: ", c.YieldStr)
+	fmt.Println("UltStr: ", c.UltStr)
+	fmt.Println("Shape: ", c.Shape)
+	//fmt.Println("SteelSections_t_f: ", steelArgumentsData.SteelSections_t_f)
+	//fmt.Println("SteelSections_w: ", SteelSections_w)
+	//fmt.Println("SteelSections_a: ", SteelSections_a)
+	//fmt.Println("SteelSections_d: ", SteelSections_d)
+	//fmt.Println("SteelSections_ddet: ", SteelSections_ddet)
+	//fmt.Println("SteelSections_ht: ", SteelSections_ht)
+	//fmt.Println("SteelSections_h: ", SteelSections_h)
+	//fmt.Println("SteelSections_od: ", SteelSections_od)
+	//fmt.Println("SteelSections_bf: ", SteelSections_bf)
+	//fmt.Println("SteelSections_bfdet: ", SteelSections_bfdet)
+	//fmt.Println("SteelSections_bhss: ", SteelSections_bhss)
+	//fmt.Println("SteelSections_b: ", SteelSections_b)
+	//fmt.Println("SteelSections_id: ", SteelSections_id)
+	//fmt.Println("SteelSections_tw: ", SteelSections_tw)
+	//fmt.Println("SteelSections_twdet: ", SteelSections_twdet)
+	//fmt.Println("SteelSections_twdet_2: ", SteelSections_twdet_2)
+	//fmt.Println("SteelSections_tf: ", SteelSections_tf)
+	//fmt.Println("SteelSections_tfdet: ", SteelSections_tfdet)
+	//fmt.Println("SteelSections_th: ", SteelSections_th)
+	//fmt.Println("SteelSections_tnom: ", SteelSections_tnom)
+	//fmt.Println("SteelSections_tdes: ", SteelSections_tdes)
+	//fmt.Println("SteelSections_kdes: ", SteelSections_kdes)
+	//fmt.Println("SteelSections_kdet: ", SteelSections_kdet)
+	//fmt.Println("SteelSections_k1: ", SteelSections_k1)
+	//fmt.Println("SteelSections_x: ", SteelSections_x)
+	//fmt.Println("SteelSections_y: ", SteelSections_y)
+	//fmt.Println("SteelSections_eo: ", SteelSections_eo)
+	//fmt.Println("SteelSections_xp: ", SteelSections_xp)
+	//fmt.Println("SteelSections_yp: ", SteelSections_yp)
+	//fmt.Println("SteelSections_bf_2tf: ", SteelSections_bf_2tf)
+	//fmt.Println("SteelSections_b_t: ", SteelSections_b_t)
+	//fmt.Println("SteelSections_b_tdes: ", SteelSections_b_tdes)
+	//fmt.Println("SteelSections_h_tw: ", SteelSections_h_tw)
+	//fmt.Println("SteelSections_h_tdes: ", SteelSections_h_tdes)
+	//fmt.Println("SteelSections_d_t: ", SteelSections_d_t)
+	//fmt.Println("SteelSections_ix: ", SteelSections_ix)
+	//fmt.Println("SteelSections_zx: ", SteelSections_zx)
+	//fmt.Println("SteelSections_sx; ", SteelSections_sx)
+	//fmt.Println("SteelSections_rx: ", SteelSections_rx)
+	//fmt.Println("SteelSections_iy: ", SteelSections_iy)
+	//fmt.Println("SteelSections_zy: ", SteelSections_zy)
+	//fmt.Println("SteelSections_sy: ", SteelSections_sy)
+	//fmt.Println("SteelSections_ry: ", SteelSections_ry)
+	//fmt.Println("SteelSections_iz: ", SteelSections_iz)
+	//fmt.Println("SteelSections_rz: ", SteelSections_rz)
+	//fmt.Println("SteelSections_sz: ", SteelSections_sz)
+	//fmt.Println("SteelSections_j: ", SteelSections_j)
+	//fmt.Println("SteelSections_cw: ", SteelSections_cw)
+	//fmt.Println("SteelSections_c: ", SteelSections_c)
+	//fmt.Println("SteelSections_wno: ", SteelSections_wno)
+	//fmt.Println("SteelSections_sw1: ", SteelSections_sw1)
+	//fmt.Println("SteelSections_sw2: ", SteelSections_sw2)
+	//fmt.Println("SteelSections_sw3: ", SteelSections_sw3)
+	//fmt.Println("SteelSections_qf: ", SteelSections_qf)
+	//fmt.Println("SteelSections_qw: ", SteelSections_qw)
+	//fmt.Println("SteelSections_ro: ", SteelSections_ro)
+	//fmt.Println("SteelSections_hfc: ", SteelSections_hfc)
+	//fmt.Println("SteelSections_tan_a: ", SteelSections_tan_a)
+	//fmt.Println("SteelSections_iw: ", SteelSections_iw)
+	//fmt.Println("SteelSections_za: ", SteelSections_za)
+	//fmt.Println("SteelSections_zb: ", SteelSections_zb)
+	//fmt.Println("SteelSections_zc: ", SteelSections_zc)
+	//fmt.Println("SteelSections_wa: ", SteelSections_wa)
+	//fmt.Println("SteelSections_wb: ", SteelSections_wb)
+	//fmt.Println("SteelSections_wc: ", SteelSections_wc)
+	//fmt.Println("SteelSections_swa: ", SteelSections_swa)
+	//fmt.Println("SteelSections_swb: ", SteelSections_swb)
+	//fmt.Println("SteelSections_swc: ", SteelSections_swc)
+	//fmt.Println("SteelSections_sza: ", SteelSections_sza)
+	//fmt.Println("SteelSections_szb: ", SteelSections_szb)
+	//fmt.Println("SteelSections_szc: ", SteelSections_szc)
+	//fmt.Println("SteelSections_rts: ", SteelSections_rts)
+	//fmt.Println("SteelSections_ho: ", SteelSections_ho)
+	//fmt.Println("SteelSections_pa: ", SteelSections_pa)
+	//fmt.Println("SteelSections_pa2: ", SteelSections_pa2)
+	//fmt.Println("SteelSections_pb: ", SteelSections_pb)
+	//fmt.Println("SteelSections_pc: ", SteelSections_pc)
+	//fmt.Println("SteelSections_pd: ", SteelSections_pd)
+	//fmt.Println("SteelSections_t: ", SteelSections_t)
+	//fmt.Println("SteelSections_wgi: ", SteelSections_wgi)
+	//fmt.Println("SteelSections_wgo: ", SteelSections_wgo)
+
 	Pt, Pc, Mcx, Mcy, Vcx, Vcy, Pratio, MxRatio, MyRatio, VxRatio, VyRatio, Combined, KLr := amir_calc.BeamColumnAnalysis(
 		c.Analysis,
-		c.Analysis,
+		c.Method,
 		c.Units,
 		c.TensileFactor,
 		c.CompressFactor,
 		c.BendingFactor,
 		c.ShearFactor,
-		c.Vx,
-		c.Vy,
 		c.Mx,
 		c.My,
+		c.Vx,
+		c.Vy,
 		c.P,
 		c.Lb,
 		c.Lx,
@@ -348,7 +456,19 @@ func (s *steelArgumentsDao) Get(c *CreateSteelArguments) (*CreateSteelArguments,
 		SteelSections_wgi,
 		SteelSections_wgo)
 
+	fmt.Println("Pt = ", Pt)
+	fmt.Println("Pc = ", Pc)
+	fmt.Println("Mcx = ", Mcx)
+	fmt.Println("Mcy = ", Mcy)
+	fmt.Println("Vcx = ", Vcx)
+	fmt.Println("Vcy = ", Vcy)
 	fmt.Println("Pratio = ", Pratio)
+	fmt.Println("MxRatio = ", MxRatio)
+	fmt.Println("MyRatio = ", MyRatio)
+	fmt.Println("VxRatio = ", VxRatio)
+	fmt.Println("VyRatio = ", VyRatio)
+	fmt.Println("Combined = ", Combined)
+	fmt.Println("KLr = ", KLr)
 
 	calculationResult := &BeamAnalysisResults{
 		Pt:       Pt,
